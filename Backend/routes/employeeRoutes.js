@@ -2,9 +2,8 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db");
 
-// =====================================================
 // GET ALL EMPLOYEES
-// =====================================================
+
 router.get("/", (req, res) => {
   const sql = "SELECT * FROM employees ORDER BY id DESC";
 
@@ -25,10 +24,8 @@ router.get("/", (req, res) => {
   });
 });
 
-
-// =====================================================
 // GET SINGLE EMPLOYEE
-// =====================================================
+
 router.get("/:id", (req, res) => {
   const { id } = req.params;
 
@@ -58,10 +55,8 @@ router.get("/:id", (req, res) => {
   });
 });
 
-
-// =====================================================
 // ADD EMPLOYEE
-// =====================================================
+
 router.post("/", (req, res) => {
   const {
     employee_id,
@@ -73,10 +68,9 @@ router.post("/", (req, res) => {
     status,
     image,
   } = req.body;
-
-  // ---------------------------------------------
+  
   // REQUIRED FIELDS
-  // ---------------------------------------------
+  
   if (
     !employee_id ||
     !name ||
@@ -91,10 +85,8 @@ router.post("/", (req, res) => {
     });
   }
 
-  // ---------------------------------------------
   // EMPLOYEE ID VALIDATION
-  // 3 TO 9 DIGITS
-  // ---------------------------------------------
+  
   const employeeIdString = String(employee_id).trim();
 
   if (!/^\d{3,9}$/.test(employeeIdString)) {
@@ -104,9 +96,8 @@ router.post("/", (req, res) => {
     });
   }
 
-  // ---------------------------------------------
   // INSERT QUERY
-  // ---------------------------------------------
+  
   const sql = `
     INSERT INTO employees
     (
@@ -162,10 +153,8 @@ router.post("/", (req, res) => {
   );
 });
 
-
-// =====================================================
 // UPDATE EMPLOYEE
-// =====================================================
+
 router.put("/:id", (req, res) => {
   const { id } = req.params;
 
@@ -180,9 +169,8 @@ router.put("/:id", (req, res) => {
     image,
   } = req.body;
 
-  // ---------------------------------------------
   // REQUIRED FIELDS
-  // ---------------------------------------------
+  
   if (
     !employee_id ||
     !name ||
@@ -196,11 +184,6 @@ router.put("/:id", (req, res) => {
       message: "Required fields are missing",
     });
   }
-
-  // ---------------------------------------------
-  // EMPLOYEE ID VALIDATION
-  // 3 TO 9 DIGITS
-  // ---------------------------------------------
   const employeeIdString = String(employee_id).trim();
 
   if (!/^\d{3,9}$/.test(employeeIdString)) {
@@ -209,10 +192,9 @@ router.put("/:id", (req, res) => {
       message: "Invalid Employee ID",
     });
   }
-
-  // ---------------------------------------------
+  
   // UPDATE QUERY
-  // ---------------------------------------------
+  
   const sql = `
     UPDATE employees
     SET
@@ -275,9 +257,9 @@ router.put("/:id", (req, res) => {
 });
 
 
-// =====================================================
+
 // DELETE EMPLOYEE
-// =====================================================
+
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
 
@@ -307,8 +289,6 @@ router.delete("/:id", (req, res) => {
   });
 });
 
-
-// =====================================================
 // EXPORT ROUTER
-// =====================================================
+
 module.exports = router;
